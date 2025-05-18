@@ -71,6 +71,7 @@ export default function ExerciseTargetsDataGrid() {
         <Grid item xs={12} md={6}>
           <TextField
             fullWidth
+            disabled
             label="用户ID"
             value={targetData.uid}
             InputProps={{ readOnly: true }}
@@ -79,6 +80,7 @@ export default function ExerciseTargetsDataGrid() {
         <Grid item xs={12} md={6}>
           <TextField
             fullWidth
+            disabled
             label="目标ID"
             value={targetData.target_id}
             InputProps={{ readOnly: true }}
@@ -91,6 +93,7 @@ export default function ExerciseTargetsDataGrid() {
             <InputLabel>运动类型</InputLabel>
             <Select
               value={targetData.target_type}
+              disabled
               label="运动类型"
               onChange={handleChange("target_type")}
             >
@@ -108,6 +111,7 @@ export default function ExerciseTargetsDataGrid() {
             <InputLabel>目标周期</InputLabel>
             <Select
               value={targetData.target_cycle}
+              disabled
               label="目标周期"
               onChange={handleChange("target_cycle")}
             >

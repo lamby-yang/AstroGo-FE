@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   TextField,
@@ -56,19 +56,70 @@ const departments = [
 ];
 
 export default function ProfileDataGrid() {
-  const [userData, setUserData] = React.useState({
-    uid: 1001,
-    user_name: "张三",
-    creat_time: "2023-01-15T09:30:00",
-    last_login_time: "2024-05-20T14:30:00",
-    phone_number: "13800138000",
-    avatar_url: "https://example.com/avatar.jpg",
-    department: 1,
-    age: 25,
-    height: 175,
-    weight: 65,
-    is_deleted: false,
+  const userId = 1;
+  const [userData, setUserData] = useState({
+    uid: "",
+    user_name: "加载中...",
+    creat_time: "",
+    phone_number: "",
+    department: "",
+    age: "",
+    height: "",
+    weight: "",
+    avatar_url: "/default-avatar.png",
   });
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/user/${userId}/`
+        );
+        if (!response.ok) {
+          throw new Error(`请求失败 (状态码: ${response.status})`);
+        }
+
+        const rawData = await response.json();
+        console.log("原始数据:", rawData);
+
+        // 安全转换日期
+        const safeDateConvert = (dateStr) => {
+          try {
+            return new Date(dateStr).toLocaleString();
+          } catch {
+            return "日期格式错误";
+          }
+        };
+
+        const formattedData = {
+          uid: rawData.uid,
+          user_name: rawData.user_name,
+          creat_time: safeDateConvert(rawData.creat_time),
+          last_login_time: rawData.last_login_time
+            ? safeDateConvert(rawData.last_login_time)
+            : "从未登录",
+          phone_number: rawData.phone_number || "未提供",
+          avatar_url: rawData.avatar_url || "/default-avatar.png",
+          department: rawData.department || "未知院系",
+          age: rawData.age ?? "未知",
+          height: rawData.height || "未记录",
+          weight: rawData.weight || "未记录",
+          pwd: rawData.pwd ? rawData.pwd : "未提供",
+          app_id: rawData.app_id ? rawData.app_id : "未提供",
+        };
+
+        console.log("格式化后数据:", formattedData);
+        setUserData(formattedData);
+        setError(null);
+      } catch (err) {
+        console.error("数据获取失败:", err);
+        setError(err.message);
+        setUserData(null); // 清空无效数据
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
   // 处理表单变更
   const handleChange = (name) => (event) => {
@@ -92,7 +143,7 @@ export default function ProfileDataGrid() {
     // 这里应添加API调用
     console.log("提交的用户数据:", userData);
   };
-
+  console.log(userData);
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
@@ -115,6 +166,7 @@ export default function ProfileDataGrid() {
             value={userData.user_name}
             onChange={handleChange("user_name")}
             required
+            InputProps={{ readOnly: true }}
             sx={{ mb: 2 }}
           />
         </Grid>
@@ -126,6 +178,18 @@ export default function ProfileDataGrid() {
             onChange={handleChange("phone_number")}
             required
             inputProps={{ pattern: "^1[3-9]\\d{9}$" }}
+            InputProps={{ readOnly: true }}
+            sx={{ mb: 2 }}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField
+            fullWidth
+            label="密码"
+            required
+            value={userData.pwd}
+            onChange={handleChange("pwd")}
+            InputProps={{ readOnly: true }}
             sx={{ mb: 2 }}
           />
         </Grid>
@@ -135,6 +199,7 @@ export default function ProfileDataGrid() {
             <Select
               value={userData.department}
               label="所属学院"
+              InputProps={{ readOnly: true }}
               onChange={handleChange("department")}
             >
               {departments.map((dept) => (
@@ -148,6 +213,7 @@ export default function ProfileDataGrid() {
         <Grid item xs={12} md={6}>
           <DatePicker
             label="账户创建时间"
+            InputProps={{ readOnly: true }}
             value={new Date(userData.creat_time)}
             onChange={(date) => handleDateChange(date, "creat_time")}
             renderInput={(params) => (
@@ -159,6 +225,7 @@ export default function ProfileDataGrid() {
         <Grid item xs={12} md={6}>
           <DatePicker
             label="最后登录时间"
+            InputProps={{ readOnly: true }}
             value={new Date(userData.last_login_time)}
             onChange={(date) => handleDateChange(date, "last_login_time")}
             renderInput={(params) => (
@@ -180,6 +247,7 @@ export default function ProfileDataGrid() {
         <TextField
           fullWidth
           label="头像地址"
+          InputProps={{ readOnly: true }}
           value={userData.avatar_url}
           onChange={handleChange("avatar_url")}
         />
@@ -192,7 +260,7 @@ export default function ProfileDataGrid() {
             type="number"
             value={userData.age}
             onChange={handleChange("age")}
-            InputProps={{ inputProps: { min: 1, max: 150 } }}
+            InputProps={{ inputProps: { readOnly: true, min: 1, max: 150 } }}
             sx={{ mb: 2 }}
           />
         </Grid>
@@ -203,7 +271,7 @@ export default function ProfileDataGrid() {
             type="number"
             value={userData.height}
             onChange={handleChange("height")}
-            InputProps={{ inputProps: { min: 50, max: 250 } }}
+            InputProps={{ inputProps: { readOnly: true, min: 50, max: 250 } }}
           />
         </Grid>
         <Grid size={4}>
@@ -213,19 +281,20 @@ export default function ProfileDataGrid() {
             type="number"
             value={userData.weight}
             onChange={handleChange("weight")}
-            InputProps={{ inputProps: { min: 10, max: 300 } }}
+            InputProps={{ inputProps: { readOnly: true, min: 10, max: 300 } }}
           />
         </Grid>
       </Grid>
-      <Divider sx={{ my: 2 }} />
+      {/* <Divider sx={{ my: 2 }} />
       <Button
+        disabled
         type="submit"
         variant="contained"
         size="large"
         sx={{ float: "right" }}
       >
         保存设置
-      </Button>
+      </Button> */}
     </Box>
   );
 }

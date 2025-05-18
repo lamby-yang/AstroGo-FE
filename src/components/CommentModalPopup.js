@@ -68,6 +68,7 @@ const CommentModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={4}>
             <TextField
               fullWidth
+              disabled
               label="评论ID"
               name="interact_id"
               value={formData.interact_id || ""}
@@ -78,6 +79,7 @@ const CommentModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={4}>
             <TextField
               fullWidth
+              disabled
               label="帖子ID"
               name="post_id"
               value={formData.post_id || ""}
@@ -89,6 +91,7 @@ const CommentModalPopup = ({ open, onClose, initialData, onSave }) => {
             <TextField
               fullWidth
               label="用户ID"
+              disabled
               name="uid"
               value={formData.uid || ""}
               InputProps={{ readOnly: true }}
@@ -99,6 +102,7 @@ const CommentModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={6}>
             <TextField
               fullWidth
+              disabled
               label="父评论ID"
               name="parent_id"
               value={formData.parent_id || ""}
@@ -110,6 +114,7 @@ const CommentModalPopup = ({ open, onClose, initialData, onSave }) => {
 
           <Grid item xs={6}>
             <DatePicker
+              disabled
               label="评论时间"
               value={formData.interact_time}
               onChange={handleDateChange}
@@ -121,6 +126,7 @@ const CommentModalPopup = ({ open, onClose, initialData, onSave }) => {
             <TextField
               fullWidth
               multiline
+              disabled
               rows={4}
               label="评论内容"
               name="content"

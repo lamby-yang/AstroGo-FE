@@ -58,6 +58,7 @@ const RemindModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={6}>
             <TextField
               fullWidth
+              disabled
               label="提醒ID"
               value={formData.reminder_id || ""}
               InputProps={{ readOnly: true }}
@@ -65,6 +66,7 @@ const RemindModalPopup = ({ open, onClose, initialData, onSave }) => {
           </Grid>
           <Grid item xs={6}>
             <TextField
+              disabled
               fullWidth
               label="用户ID"
               value={formData.uid || ""}
@@ -74,6 +76,7 @@ const RemindModalPopup = ({ open, onClose, initialData, onSave }) => {
 
           <Grid item xs={12} md={6}>
             <TimePicker
+              disabled
               label="提醒时间"
               value={new Date(`1970-01-01T${formData.reminder_time}`)}
               onChange={handleTimeChange}

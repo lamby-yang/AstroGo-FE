@@ -79,6 +79,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
           <Grid item xs={6}>
             <TextField
               fullWidth
+              disabled
               label="帖子ID"
               value={formData.post_id || ""}
               InputProps={{ readOnly: true }}
@@ -87,6 +88,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
           </Grid>
           <Grid item xs={6}>
             <TextField
+              disabled
               fullWidth
               label="用户ID"
               value={formData.uid || ""}
@@ -97,6 +99,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
 
           <Grid item xs={15}>
             <TextField
+              disabled
               fullWidth
               label="帖子标题"
               value={formData.post_title}
@@ -109,6 +112,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
           </Grid>
           <Grid item xs={12}>
             <TextField
+              disabled
               fullWidth
               label="帖子内容"
               multiline
@@ -143,6 +147,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
                 <Grid item xs={11}>
                   <TextField
                     fullWidth
+                    disabled
                     value={url}
                     onChange={handleImageChange(index)}
                     placeholder="输入图片URL"
@@ -162,7 +167,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
                 </Grid>
               </Grid>
             ))}
-            {formData.post_image.length < 5 && (
+            {/* {formData.post_image.length < 5 && (
               <Button
                 variant="outlined"
                 startIcon={<AddIcon />}
@@ -171,7 +176,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
               >
                 添加图片
               </Button>
-            )}
+            )} */}
           </Grid>
 
           {/* 审核状态和点赞数 */}
@@ -195,6 +200,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
             <TextField
               fullWidth
               label="点赞数"
+              disabled
               type="number"
               value={formData.like_count}
               onChange={handleChange("like_count")}

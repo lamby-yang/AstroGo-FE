@@ -48,6 +48,7 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={6} md={4}>
             <TextField
               fullWidth
+              disabled
               label="记录ID"
               name="record_id"
               value={formData.record_id || ""}
@@ -58,6 +59,7 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={6} md={4}>
             <TextField
               fullWidth
+              disabled
               label="用户ID"
               name="uid"
               value={formData.uid || ""}
@@ -69,6 +71,8 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
           <Grid item xs={6} md={4}>
             <DatePicker
               label="运动日期"
+              disabled
+              // InputProps={{ readOnly: true }}
               value={formData.record_time || null}
               onChange={(date) => handleDateChange(date, "record_time")}
               renderInput={(params) => <TextField {...params} fullWidth />}
@@ -80,6 +84,7 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
               select
               fullWidth
               label="运动类型"
+              disabled
               name="exercise_type"
               value={formData.exercise_type || ""}
               onChange={handleChange}
@@ -106,6 +111,7 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
               fullWidth
               type="number"
               label="时长(分钟)"
+              disabled
               name="duration"
               value={formData.duration || 0}
               onChange={handleChange}
@@ -116,6 +122,7 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
             <TextField
               fullWidth
               type="number"
+              disabled
               label="距离(公里)"
               name="distance"
               value={formData.distance || 0}
@@ -128,12 +135,23 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
               fullWidth
               type="number"
               label="卡路里(千卡)"
+              disabled
               name="calorie"
               value={formData.calorie || 0}
               onChange={handleChange}
             />
           </Grid>
 
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              disabled
+              label="认证照片URL"
+              name="verification_photo_url"
+              value={formData.verification_photo_url || ""}
+              onChange={handleChange}
+            />
+          </Grid>
           <Grid item xs={6} md={4}>
             <TextField
               select
@@ -159,16 +177,6 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
                 />
               }
               label="已删除"
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="认证照片URL"
-              name="verification_photo_url"
-              value={formData.verification_photo_url || ""}
-              onChange={handleChange}
             />
           </Grid>
         </Grid>
