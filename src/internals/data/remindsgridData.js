@@ -45,8 +45,8 @@ export const remindColumns = [
   {
     field: "reminder_days_of_week",
     headerName: "提醒周期",
-    flex: 1.5,
-    minWidth: 150,
+    flex: 1.8,
+    minWidth: 180,
     type: "varchar",
     renderCell: (params) => renderWeekDays(params.value),
   },
@@ -78,47 +78,5 @@ export const remindColumns = [
     headerName: "操作",
     width: 100,
     flex: 0.5,
-  },
-];
-export const remindRows = [
-  {
-    id: 1,
-    reminder_id: 1,
-    uid: 1001,
-    reminder_days_of_week: "1010001",
-    reminder_time: "07:30:00",
-    is_active: true,
-  },
-  {
-    id: 2,
-    reminder_id: 2,
-    uid: 1003,
-    reminder_days_of_week: "0101010",
-    reminder_time: "18:45:00",
-    is_active: false,
-  },
-  {
-    id: 3,
-    reminder_id: 3,
-    uid: 1005,
-    reminder_days_of_week: "1111111",
-    reminder_time: "12:00:00",
-    is_active: true,
-  },
-  {
-    id: 4,
-    reminder_id: 4,
-    uid: 1008,
-    reminder_days_of_week: "0000001",
-    reminder_time: "20:15:00",
-    is_active: true,
-  },
-  {
-    id: 5,
-    reminder_id: 5,
-    uid: 1010,
-    reminder_days_of_week: "0111111",
-    reminder_time: "08:00:00",
-    is_active: false,
   },
 ];

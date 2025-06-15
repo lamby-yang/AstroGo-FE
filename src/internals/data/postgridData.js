@@ -4,13 +4,13 @@ import { Avatar, AvatarGroup } from "@mui/material";
 
 function renderPostStatus(status) {
   const colors = {
-    approved: "success",
-    rejected: "error",
+    pass: "success",
+    fail: "error",
     pending: "primary",
   };
   const statusLabels = {
-    approved: "通过",
-    rejected: "未通过",
+    pass: "通过",
+    fail: "未通过",
     pending: "未审核",
   };
   const label = statusLabels[status] || status;
@@ -64,14 +64,6 @@ export const socialMediaColumns = [
     type: "number",
   },
   {
-    field: "post_time",
-    headerName: "发布时间",
-    flex: 1.5,
-    minWidth: 150,
-    type: "dateTime",
-    renderCell: (params) => new Date(params.value).toLocaleString("zh-CN"),
-  },
-  {
     field: "post_title",
     headerName: "标题",
     flex: 1.5,
@@ -118,52 +110,7 @@ export const socialMediaColumns = [
   {
     field: "actions",
     headerName: "操作",
-    width: 80,
-    flex: 0.5,
-  },
-];
-
-// 示例数据
-export const socialMediaRows = [
-  {
-    id: 1,
-    post_id: 202405001,
-    uid: 1001,
-    post_time: new Date("2024-05-01T12:30:00"),
-    post_title: "晨跑打卡 | 今日份多巴胺",
-    post_content:
-      "今天沿着江边完成了10公里慢跑，空气清新景色宜人，坚持运动第28天！",
-    post_image: [
-      "https://example.com/post1-1.jpg",
-      "https://example.com/post1-2.jpg",
-    ],
-    like_count: 245,
-    verification_status: "approved",
-  },
-  {
-    id: 2,
-    post_id: 202405002,
-    uid: 1002,
-    post_time: new Date("2024-05-01T12:30:00"),
-    post_title: "瑜伽体验课记录",
-    post_content: "第一次尝试空中瑜伽，核心力量还需要加强，继续努力～",
-    post_image: ["https://example.com/post2.jpg"],
-    like_count: 89,
-    verification_status: "pending",
-  },
-  {
-    id: 3,
-    post_id: 202405003,
-    uid: 1003,
-    post_time: new Date("2024-05-01T12:30:00"),
-    post_title: "骑行装备分享",
-    post_content: "新入手的公路车和骑行装备，这个周末准备挑战环湖路线！",
-    post_image: [
-      "https://example.com/post3-1.jpg",
-      "https://example.com/post3-2.jpg",
-      "https://example.com/post3-3.jpg",
-    ],
-    like_count: 167,
-    verification_status: "rejected",
+    width: 100,
+    flex: 0.8,
   },
 ];

@@ -11,7 +11,6 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 
 const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
   const [formData, setFormData] = React.useState(initialData || {});
@@ -25,13 +24,6 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleDateChange = (date, field) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: date,
     }));
   };
 
@@ -64,18 +56,6 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
               name="uid"
               value={formData.uid || ""}
               InputProps={{ readOnly: true }}
-            />
-          </Grid>
-
-          {/* 日期选择 */}
-          <Grid item xs={6} md={4}>
-            <DatePicker
-              label="运动日期"
-              disabled
-              // InputProps={{ readOnly: true }}
-              value={formData.record_time || null}
-              onChange={(date) => handleDateChange(date, "record_time")}
-              renderInput={(params) => <TextField {...params} fullWidth />}
             />
           </Grid>
 
@@ -142,7 +122,7 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} md={8}>
             <TextField
               fullWidth
               disabled
@@ -161,8 +141,8 @@ const RecordModalPopup = ({ open, onClose, initialData, onSave }) => {
               value={formData.verification_status || "pending"}
               onChange={handleChange}
             >
-              <MenuItem value="approved">通过</MenuItem>
-              <MenuItem value="rejected">未通过</MenuItem>
+              <MenuItem value="pass">通过</MenuItem>
+              <MenuItem value="fail">未通过</MenuItem>
               <MenuItem value="pending">未审核</MenuItem>
             </TextField>
           </Grid>

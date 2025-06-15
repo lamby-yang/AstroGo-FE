@@ -16,23 +16,38 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const statusOptions = [
-  { value: "approved", label: "通过" },
-  { value: "rejected", label: "未通过" },
+  { value: "pass", label: "通过" },
+  { value: "fail", label: "未通过" },
   { value: "pending", label: "未审核" },
 ];
 
 export default function PostModalPopup({ open, onClose, initialData, onSave }) {
-  const [formData, setFormData] = React.useState({
-    post_image: [],
-    ...(initialData || {}),
-  });
+  const initialFormData = initialData
+    ? {
+        ...initialData,
+        post_image: Array.isArray(initialData.post_image)
+          ? initialData.post_image
+          : initialData.post_image
+          ? [initialData.post_image]
+          : [],
+      }
+    : { post_image: [] };
+
+  const [formData, setFormData] = React.useState(initialFormData);
 
   React.useEffect(() => {
-    // 合并时确保post_image存在
-    setFormData({
-      post_image: [],
-      ...(initialData || {}),
-    });
+    if (initialData) {
+      setFormData({
+        ...initialData,
+        post_image: Array.isArray(initialData.post_image)
+          ? initialData.post_image
+          : initialData.post_image
+          ? [initialData.post_image]
+          : [],
+      });
+    } else {
+      setFormData({ post_image: [] });
+    }
   }, [initialData, open]);
 
   // 处理表单变更
@@ -47,14 +62,6 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
     setFormData({ ...formData, post_image: newImages });
   };
 
-  // 添加图片输入框
-  const addImageField = () => {
-    setFormData({
-      ...formData,
-      post_image: [...formData.post_image, ""],
-    });
-  };
-
   // 删除图片
   const removeImage = (index) => () => {
     const newImages = formData.post_image.filter((_, i) => i !== index);
@@ -65,7 +72,9 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
   const handleSubmit = () => {
     const cleanedData = {
       ...formData,
-      post_image: formData.post_image.filter((url) => url.trim() !== ""),
+      post_image: formData.post_image
+        ? formData.post_image.filter((url) => url && url.trim() !== "")
+        : [],
     };
     onSave(cleanedData);
     onClose();
@@ -102,7 +111,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
               disabled
               fullWidth
               label="帖子标题"
-              value={formData.post_title}
+              value={formData.post_title || ""}
               onChange={handleChange("post_title")}
               inputProps={{ maxLength: 20 }}
               helperText={`${formData.post_title?.length || 0}/20`}
@@ -116,22 +125,22 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
               fullWidth
               label="帖子内容"
               multiline
-              value={formData.post_content}
+              value={formData.post_content || ""}
               onChange={handleChange("post_content")}
               inputProps={{ maxLength: 150 }}
               helperText={`${formData.post_content?.length || 0}/150`}
               required
               sx={{
                 mb: 2,
-                flexGrow: 1, // 关键属性：允许文本框扩展
+                flexGrow: 1,
                 "& .MuiInputBase-root": {
-                  height: "100%", // 输入区域高度填充
-                  alignItems: "flex-start", // 顶部对齐
+                  height: "100%",
+                  alignItems: "flex-start",
                 },
                 "& textarea": {
-                  resize: "vertical", // 允许垂直拖动调整
-                  minHeight: "70px", // 最小高度
-                  overflowY: "auto", // 内容过多时显示滚动条
+                  resize: "vertical",
+                  minHeight: "70px",
+                  overflowY: "auto",
                 },
               }}
             />
@@ -142,41 +151,33 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
             <Typography variant="subtitle2" gutterBottom>
               图片链接（最多5张）:
             </Typography>
-            {formData.post_image.map((url, index) => (
-              <Grid container spacing={1} key={index} sx={{ mb: 1 }}>
-                <Grid item xs={11}>
-                  <TextField
-                    fullWidth
-                    disabled
-                    value={url}
-                    onChange={handleImageChange(index)}
-                    placeholder="输入图片URL"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <span style={{ color: "#666" }}>{index + 1}.</span>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
+            {/* 修复3: 安全的数组处理 */}
+            {formData.post_image &&
+              formData.post_image.map((url, index) => (
+                <Grid container spacing={1} key={index} sx={{ mb: 1 }}>
+                  <Grid item xs={11}>
+                    <TextField
+                      fullWidth
+                      disabled
+                      value={url}
+                      onChange={handleImageChange(index)}
+                      placeholder="输入图片URL"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <span style={{ color: "#666" }}>{index + 1}.</span>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <IconButton onClick={removeImage(index)}>
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Grid>
                 </Grid>
-                <Grid item xs={1}>
-                  <IconButton onClick={removeImage(index)}>
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            ))}
-            {/* {formData.post_image.length < 5 && (
-              <Button
-                variant="outlined"
-                startIcon={<AddIcon />}
-                onClick={addImageField}
-                size="small"
-              >
-                添加图片
-              </Button>
-            )} */}
+              ))}
           </Grid>
 
           {/* 审核状态和点赞数 */}
@@ -185,7 +186,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
               select
               fullWidth
               label="审核状态"
-              value={formData.verification_status}
+              value={formData.verification_status || ""}
               onChange={handleChange("verification_status")}
               sx={{ mb: 2 }}
             >
@@ -202,7 +203,7 @@ export default function PostModalPopup({ open, onClose, initialData, onSave }) {
               label="点赞数"
               disabled
               type="number"
-              value={formData.like_count}
+              value={formData.like_count || 0}
               onChange={handleChange("like_count")}
               InputProps={{ inputProps: { min: 0 } }}
               sx={{ mb: 2 }}

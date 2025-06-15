@@ -25,7 +25,7 @@ const target_cycles = {
   week: "每周",
   month: "每月",
 };
-export default function ExerciseTargetsDataGrid() {
+export default function ExerciseTargetsDataGrid({ userId }) {
   const [targetData, setTargetData] = useState({
     uid: 1001,
     target_id: 202405001,
@@ -105,9 +105,8 @@ export default function ExerciseTargetsDataGrid() {
     }
   };
 
-  // 组件挂载时加载数据（示例 UID=2）
   useEffect(() => {
-    fetchData(2); // 这里可以动态传入 UID
+    fetchData(userId);
   }, []);
 
   return (

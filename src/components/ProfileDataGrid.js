@@ -55,8 +55,7 @@ const departments = [
   { id: 43, name: "前沿科学技术创新研究院" },
 ];
 
-export default function ProfileDataGrid() {
-  const userId = 1;
+export default function ProfileDataGrid({ userId }) {
   const [userData, setUserData] = useState({
     uid: "",
     user_name: "加载中...",

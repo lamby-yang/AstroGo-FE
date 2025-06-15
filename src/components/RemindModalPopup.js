@@ -17,7 +17,6 @@ const weekDays = ["周一", "周二", "周三", "周四", "周五", "周六", "�
 
 const RemindModalPopup = ({ open, onClose, initialData, onSave }) => {
   const [formData, setFormData] = React.useState({
-    reminder_days_of_week: "0000000",
     ...initialData,
   });
 
@@ -117,6 +116,7 @@ const RemindModalPopup = ({ open, onClose, initialData, onSave }) => {
                             ...formData,
                             reminder_days_of_week: newDays.join(""),
                           });
+                          console.log(formData);
                         }}
                         color="primary"
                       />
