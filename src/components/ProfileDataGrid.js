@@ -136,15 +136,9 @@ export default function ProfileDataGrid({ userId }) {
     });
   };
 
-  // 提交表单
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // 这里应添加API调用
-    console.log("提交的用户数据:", userData);
-  };
   console.log(userData);
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
+    <Box component="form" sx={{ p: 3 }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
         基本信息
       </Typography>
@@ -155,6 +149,7 @@ export default function ProfileDataGrid({ userId }) {
             label="用户ID"
             value={userData.uid}
             InputProps={{ readOnly: true }}
+            disabled
             sx={{ mb: 2 }}
           />
         </Grid>
@@ -166,6 +161,7 @@ export default function ProfileDataGrid({ userId }) {
             onChange={handleChange("user_name")}
             required
             InputProps={{ readOnly: true }}
+            disabled
             sx={{ mb: 2 }}
           />
         </Grid>
@@ -177,7 +173,7 @@ export default function ProfileDataGrid({ userId }) {
             onChange={handleChange("phone_number")}
             required
             inputProps={{ pattern: "^1[3-9]\\d{9}$" }}
-            InputProps={{ readOnly: true }}
+            disabled
             sx={{ mb: 2 }}
           />
         </Grid>
@@ -185,17 +181,19 @@ export default function ProfileDataGrid({ userId }) {
           <TextField
             fullWidth
             label="密码"
-            required
             value={userData.pwd}
             onChange={handleChange("pwd")}
             InputProps={{ readOnly: true }}
+            required
             sx={{ mb: 2 }}
+            disabled
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <FormControl fullWidth sx={{ mb: 2 }}>
             <InputLabel>所属学院</InputLabel>
             <Select
+              disabled
               value={userData.department}
               label="所属学院"
               InputProps={{ readOnly: true }}
@@ -212,21 +210,8 @@ export default function ProfileDataGrid({ userId }) {
         <Grid item xs={12} md={6}>
           <DatePicker
             label="账户创建时间"
-            InputProps={{ readOnly: true }}
             value={new Date(userData.creat_time)}
             onChange={(date) => handleDateChange(date, "creat_time")}
-            renderInput={(params) => (
-              <TextField {...params} fullWidth sx={{ mb: 2 }} />
-            )}
-            disabled
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <DatePicker
-            label="最后登录时间"
-            InputProps={{ readOnly: true }}
-            value={new Date(userData.last_login_time)}
-            onChange={(date) => handleDateChange(date, "last_login_time")}
             renderInput={(params) => (
               <TextField {...params} fullWidth sx={{ mb: 2 }} />
             )}
@@ -247,6 +232,7 @@ export default function ProfileDataGrid({ userId }) {
           fullWidth
           label="头像地址"
           InputProps={{ readOnly: true }}
+          disabled
           value={userData.avatar_url}
           onChange={handleChange("avatar_url")}
         />
@@ -257,6 +243,7 @@ export default function ProfileDataGrid({ userId }) {
             fullWidth
             label="年龄"
             type="number"
+            disabled
             value={userData.age}
             onChange={handleChange("age")}
             InputProps={{ inputProps: { readOnly: true, min: 1, max: 150 } }}
@@ -265,6 +252,7 @@ export default function ProfileDataGrid({ userId }) {
         </Grid>
         <Grid size={4}>
           <TextField
+            disabled
             fullWidth
             label="身高(cm)"
             type="number"
@@ -277,6 +265,7 @@ export default function ProfileDataGrid({ userId }) {
           <TextField
             fullWidth
             label="体重(kg)"
+            disabled
             type="number"
             value={userData.weight}
             onChange={handleChange("weight")}
@@ -284,16 +273,6 @@ export default function ProfileDataGrid({ userId }) {
           />
         </Grid>
       </Grid>
-      {/* <Divider sx={{ my: 2 }} />
-      <Button
-        disabled
-        type="submit"
-        variant="contained"
-        size="large"
-        sx={{ float: "right" }}
-      >
-        保存设置
-      </Button> */}
     </Box>
   );
 }

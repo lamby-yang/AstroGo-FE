@@ -42,12 +42,6 @@ export default function Dashboard(props) {
               })}
             >
               <Routes>
-                {/* <Route path="/profile" element={<MainContent />} />
-                <Route path="/records" element={<MainContent />} />
-                <Route path="/goals" element={<MainContent />} />
-                <Route path="/reminders" element={<MainContent />} />
-                <Route path="/posts" element={<MainContent />} />
-                <Route path="/comments" element={<MainContent />} /> */}
                 <Route path="*" element={<MainContent />} />
                 <Route path="/profile/:userId?" element={<MainContent />} />
                 <Route path="/records/:userId?" element={<MainContent />} />
